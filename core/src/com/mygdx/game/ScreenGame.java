@@ -31,15 +31,15 @@ public class ScreenGame implements Screen {
                 buttonMarket.y,
                 buttonMarket.width,
                 buttonMarket.height);
-//        if (Gdx.input.justTouched()) {
-//            float x = Gdx.input.getX(), y =  Gdx.input.getY();
-//            mgg.touch.set(x, y, 0);
-//            mgg.camera.unproject(mgg.touch);
-//            System.out.println("hi");
-////            if (market.pushed(x, y)){
-////                mgg.setScreen(mgg.screenMarket);
-////            }
-//        }
+        if (Gdx.input.justTouched()) {
+            float x = Gdx.input.getX(), y =  Gdx.input.getY();
+            mgg.touch.set(x, y, 0);
+            mgg.camera.unproject(mgg.touch);
+            System.out.println("hi");
+//            if (market.pushed(x, y)){
+//                mgg.setScreen(mgg.screenMarket);
+//            }
+        }
         mgg.batch.end();
 
     }

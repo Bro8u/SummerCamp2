@@ -22,7 +22,7 @@ public class MyGdxGame extends Game {
 
 	Vector3 touch;
 
-	BitmapFont font; // шрифт
+//	BitmapFont font; // шрифт
 	ScreenGame screenGame;
 //	ScreenMarket screenMarket;
 
@@ -32,7 +32,7 @@ public class MyGdxGame extends Game {
 		camera = new OrthographicCamera();
 		touch = new Vector3();
 
-		createFont();
+//		createFont();
 
 		camera.setToOrtho(false, SCR_WIDTH, SCR_HEIGHT);
 //		screenIntro = new ScreenIntro(this);
@@ -46,16 +46,16 @@ public class MyGdxGame extends Game {
 	}
 
 
-	void createFont(){
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("wellwait.otf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.characters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
-		parameter.size = 50;
-		parameter.color = Color.ORANGE;
-		parameter.borderWidth = 3;
-		parameter.borderColor = Color.BLACK;
-		font = generator.generateFont(parameter);
-	}
+//	void createFont(){
+//		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("wellwait.otf"));
+//		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+//		parameter.characters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
+//		parameter.size = 50;
+//		parameter.color = Color.ORANGE;
+//		parameter.borderWidth = 3;
+//		parameter.borderColor = Color.BLACK;
+//		font = generator.generateFont(parameter);
+//	}
 
 	@Override
 	public void dispose() {
