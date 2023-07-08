@@ -14,11 +14,11 @@ public class Button {
         this.y = y;
         this.img = img;
     }
-//    boolean pushed(float tx, float ty){
-//        if (x < tx && tx < x + width && y < ty && ty < y + height){
-//            return true;
-//        }
-//        return false;
-//    }
+    boolean pushed(float tx, float ty){
+        if (x <= tx && tx <= x + width && ty <= SCR_HEIGHT - y && SCR_HEIGHT - ty <= y + height){
+            return true;
+        }
+        return false;
+    }
 
 }

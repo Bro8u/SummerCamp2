@@ -10,13 +10,12 @@ public class ScreenGame implements Screen {
     MyGdxGame mgg;
     Texture imgBackGround;
     Button buttonMarket;
-    public ScreenGame(MyGdxGame g) {
+    public ScreenGame(MyGdxGame g, boolean isHouse) {
         mgg = g;
         imgBackGround = new Texture("backgroundMain.jpg");
         buttonMarket = new Button(100, 100, SCR_WIDTH - 100,
                 SCR_HEIGHT - 100, new Texture("buttonMarket.png"));
     }
-
     @Override
     public void show() {
 
@@ -32,13 +31,12 @@ public class ScreenGame implements Screen {
                 buttonMarket.width,
                 buttonMarket.height);
         if (Gdx.input.justTouched()) {
-            float x = Gdx.input.getX(), y =  Gdx.input.getY();
+            float x = Gdx.input.getX(), y = Gdx.input.getY();
             mgg.touch.set(x, y, 0);
             mgg.camera.unproject(mgg.touch);
-            System.out.println("hi");
-//            if (market.pushed(x, y)){
-//                mgg.setScreen(mgg.screenMarket);
-//            }
+            if (buttonMarket.pushed(x, y)){
+                mgg.setScreen(mgg.screenMarket);
+            }
         }
         mgg.batch.end();
 

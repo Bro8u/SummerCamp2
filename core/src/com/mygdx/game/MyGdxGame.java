@@ -13,8 +13,8 @@ import com.badlogic.gdx.math.Vector3;
 
 public class MyGdxGame extends Game {
 	// ширина и высота экрана
-	public static final float SCR_WIDTH = 1280;
-	public static final float SCR_HEIGHT = 720;
+	public static float SCR_WIDTH;
+	public static float SCR_HEIGHT;
 
 	// системные объекты
 	SpriteBatch batch; // Объект, отвечающий за вывод изображений
@@ -24,22 +24,24 @@ public class MyGdxGame extends Game {
 
 //	BitmapFont font; // шрифт
 	ScreenGame screenGame;
-//	ScreenMarket screenMarket;
+	ScreenMarket screenMarket;
 
 	@Override
 	public void create() {
 		batch = new SpriteBatch(); // создать объект, отвечающий за вывод изображений
 		camera = new OrthographicCamera();
 		touch = new Vector3();
-
+		SCR_WIDTH = Gdx.graphics.getWidth();
+		SCR_HEIGHT = Gdx.graphics.getHeight();
 //		createFont();
 
 		camera.setToOrtho(false, SCR_WIDTH, SCR_HEIGHT);
 //		screenIntro = new ScreenIntro(this);
+		screenMarket = new ScreenMarket(this);
 
-		screenGame = new ScreenGame(this);
+		screenGame = new ScreenGame(this, 0);
 
-//		screenMarket = new ScreenMarket(this);
+
 
 //		setScreen(screenIntro);
 		setScreen(screenGame);
