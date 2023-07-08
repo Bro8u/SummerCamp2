@@ -10,7 +10,7 @@ public class ScreenGame implements Screen {
     MyGdxGame mgg;
     Texture imgBackGround;
     Button buttonMarket;
-    public ScreenGame(MyGdxGame g, boolean isHouse) {
+    public ScreenGame(MyGdxGame g) {
         mgg = g;
         imgBackGround = new Texture("backgroundMain.jpg");
         buttonMarket = new Button(100, 100, SCR_WIDTH - 100,
@@ -23,6 +23,7 @@ public class ScreenGame implements Screen {
 
     @Override
     public void render(float delta) {
+
         mgg.batch.begin();
         mgg.batch.draw(imgBackGround, 0, 0, SCR_WIDTH, SCR_HEIGHT);
         mgg.batch.draw(buttonMarket.img,
@@ -30,6 +31,9 @@ public class ScreenGame implements Screen {
                 buttonMarket.y,
                 buttonMarket.width,
                 buttonMarket.height);
+        if (mgg.number != -1){
+            mgg.batch.draw(new Texture("build" + Integer.toString(mgg.number) + ".jpeg"), 0, 0, 300, 300 );
+        }
         if (Gdx.input.justTouched()) {
             float x = Gdx.input.getX(), y = Gdx.input.getY();
             mgg.touch.set(x, y, 0);
@@ -39,7 +43,6 @@ public class ScreenGame implements Screen {
             }
         }
         mgg.batch.end();
-
     }
 
     @Override

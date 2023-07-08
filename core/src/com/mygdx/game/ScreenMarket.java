@@ -9,9 +9,10 @@ public class ScreenMarket implements Screen {
     Button buttonBack;
     Texture imgBackGround;
     MyGdxGame mgg;
+
     public ScreenMarket(MyGdxGame g){
         mgg = g;
-
+        mgg.number = -1;
         imgBackGround = new Texture("backgroundMarket.jpg");
 
         buttonBack = new Button(100, 100, 0, SCR_HEIGHT - 100, new Texture("buttonBack.png"));
@@ -31,6 +32,7 @@ public class ScreenMarket implements Screen {
     }
     @Override
     public void render(float delta){
+
         mgg.batch.begin();
         mgg.batch.draw(imgBackGround, 0, 0, MyGdxGame.SCR_WIDTH, MyGdxGame.SCR_HEIGHT);
         mgg.batch.draw(buttonBack.img, buttonBack.x, buttonBack.y, buttonBack.width, buttonBack.height);
@@ -53,7 +55,11 @@ public class ScreenMarket implements Screen {
             mgg.camera.unproject(mgg.touch);
             for(int i = 0; i < newHouses.length; i++){
                 if (newHouses[i].buttonBuyHouse.pushed(x, y)){
+                    newHouses[i].buttonBuyHouse = new Button(300, 100,
+                            newHouses[i].x, newHouses[i].y - 100, new Texture("buyHouse.jpeg"));
+                    mgg.number = (i + 2);
                     mgg.setScreen(mgg.screenGame);
+
                 }
             }
             if (buttonBack.pushed(x, y)){
@@ -88,7 +94,9 @@ public class ScreenMarket implements Screen {
     public void dispose() {
         imgBackGround.dispose();
         for(int i = 0; i < newHouses.length; i++){
+
             newHouses[i].img.dispose();
+
             newHouses[i].buttonBuyHouse.img.dispose();
         }
         buttonBack.img.dispose();
