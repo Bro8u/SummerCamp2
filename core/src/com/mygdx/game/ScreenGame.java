@@ -31,8 +31,8 @@ public class ScreenGame implements Screen {
                 buttonMarket.y,
                 buttonMarket.width,
                 buttonMarket.height);
-        if (mgg.number != -1){
-            mgg.batch.draw(new Texture("build" + Integer.toString(mgg.number) + ".jpeg"), 0, 0, 300, 300 );
+        if (mgg.bought != -1){
+            mgg.batch.draw(new Texture("build" + Integer.toString(mgg.bought) + ".jpeg"), 0, 0, 300, 300 );
         }
         if (Gdx.input.justTouched()) {
             float x = Gdx.input.getX(), y = Gdx.input.getY();

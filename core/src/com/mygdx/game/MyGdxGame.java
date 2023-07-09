@@ -15,11 +15,12 @@ public class MyGdxGame extends Game {
 	// ширина и высота экрана
 	public static float SCR_WIDTH;
 	public static float SCR_HEIGHT;
+	BitmapFont font;
 
 	// системные объекты
 	SpriteBatch batch; // Объект, отвечающий за вывод изображений
 	OrthographicCamera camera; // пересчитывает размеры для различных экранов
-	int number;
+	int bought, TotalMoney = 1000000000;
 	Vector3 touch;
 
 //	BitmapFont font; // шрифт
@@ -33,8 +34,8 @@ public class MyGdxGame extends Game {
 		touch = new Vector3();
 		SCR_WIDTH = Gdx.graphics.getWidth();
 		SCR_HEIGHT = Gdx.graphics.getHeight();
-		number = -1;
-//		createFont();
+		bought = -1;
+		createFont();
 
 		camera.setToOrtho(false, SCR_WIDTH, SCR_HEIGHT);
 //		screenIntro = new ScreenIntro(this);
@@ -49,16 +50,16 @@ public class MyGdxGame extends Game {
 	}
 
 
-//	void createFont(){
-//		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("wellwait.otf"));
-//		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-//		parameter.characters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
-//		parameter.size = 50;
-//		parameter.color = Color.ORANGE;
-//		parameter.borderWidth = 3;
-//		parameter.borderColor = Color.BLACK;
-//		font = generator.generateFont(parameter);
-//	}
+	void createFont(){
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("wellwait.otf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.characters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
+		parameter.size = 50;
+		parameter.color = Color.ORANGE;
+		parameter.borderWidth = 3;
+		parameter.borderColor = Color.BLACK;
+		font = generator.generateFont(parameter);
+	}
 
 	@Override
 	public void dispose() {
