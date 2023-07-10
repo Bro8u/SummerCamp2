@@ -10,7 +10,7 @@ public class NewHouse {
     float x = SCR_WIDTH / 10, y = SCR_HEIGHT / 8;
     int cost;
     Texture img;
-    Button buttonBuyHouse, buttonInfHouse;
+    Button1 button1BuyHouse, button1InfHouse;
 
 //    boolean bought = false;
     NewHouse(int delta, Texture img, int cost){
@@ -19,7 +19,6 @@ public class NewHouse {
         width = height = 250;
         x = SCR_WIDTH / 10 + delta * 350;
         y = SCR_HEIGHT - 300;
-
     }
 
 

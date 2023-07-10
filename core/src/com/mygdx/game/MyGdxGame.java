@@ -20,7 +20,7 @@ public class MyGdxGame extends Game {
 	// системные объекты
 	SpriteBatch batch; // Объект, отвечающий за вывод изображений
 	OrthographicCamera camera; // пересчитывает размеры для различных экранов
-	int bought, TotalMoney = 1000000000;
+	int TotalMoney = 1000000000;
 	Vector3 touch;
 
 //	BitmapFont font; // шрифт
@@ -34,7 +34,6 @@ public class MyGdxGame extends Game {
 		touch = new Vector3();
 		SCR_WIDTH = Gdx.graphics.getWidth();
 		SCR_HEIGHT = Gdx.graphics.getHeight();
-		bought = -1;
 		createFont();
 
 		camera.setToOrtho(false, SCR_WIDTH, SCR_HEIGHT);
@@ -44,9 +43,12 @@ public class MyGdxGame extends Game {
 		screenGame = new ScreenGame(this);
 
 
-
 //		setScreen(screenIntro);
 		setScreen(screenGame);
+	}
+
+	void updateScreenGame(int numHouse) {
+		screenGame.numHouse = numHouse;
 	}
 
 

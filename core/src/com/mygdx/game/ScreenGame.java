@@ -9,11 +9,14 @@ import static com.mygdx.game.MyGdxGame.SCR_WIDTH;
 public class ScreenGame implements Screen {
     MyGdxGame mgg;
     Texture imgBackGround;
-    Button buttonMarket;
+    Button1 button1Market;
+
+    int numHouse = -1;
+
     public ScreenGame(MyGdxGame g) {
         mgg = g;
         imgBackGround = new Texture("backgroundMain.jpg");
-        buttonMarket = new Button(100, 100, SCR_WIDTH - 100,
+        button1Market = new Button1(100, 100, SCR_WIDTH - 100,
                 SCR_HEIGHT - 100, new Texture("buttonMarket.png"));
     }
     @Override
@@ -26,19 +29,19 @@ public class ScreenGame implements Screen {
 
         mgg.batch.begin();
         mgg.batch.draw(imgBackGround, 0, 0, SCR_WIDTH, SCR_HEIGHT);
-        mgg.batch.draw(buttonMarket.img,
-                buttonMarket.x,
-                buttonMarket.y,
-                buttonMarket.width,
-                buttonMarket.height);
-        if (mgg.bought != -1){
-            mgg.batch.draw(new Texture("build" + Integer.toString(mgg.bought) + ".jpeg"), 0, 0, 300, 300 );
+        mgg.batch.draw(button1Market.img,
+                button1Market.x,
+                button1Market.y,
+                button1Market.width,
+                button1Market.height);
+        if (numHouse != -1){
+            mgg.batch.draw(new Texture("build" + numHouse + ".jpeg"), 0, 0, 300, 300 );
         }
         if (Gdx.input.justTouched()) {
             float x = Gdx.input.getX(), y = Gdx.input.getY();
             mgg.touch.set(x, y, 0);
             mgg.camera.unproject(mgg.touch);
-            if (buttonMarket.pushed(x, y)){
+            if (button1Market.pushed(x, y)){
                 mgg.setScreen(mgg.screenMarket);
             }
         }
@@ -68,6 +71,6 @@ public class ScreenGame implements Screen {
     @Override
     public void dispose() {
         imgBackGround.dispose();
-        buttonMarket.img.dispose();
+        button1Market.img.dispose();
     }
 }

@@ -1,6 +1,5 @@
 package com.mygdx.game;
 import static com.mygdx.game.MyGdxGame.SCR_HEIGHT;
-import static com.mygdx.game.MyGdxGame.SCR_WIDTH;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -9,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
-public class Button {
+public class Button1 {
     float width, height;
     float x, y;
     Texture img;
@@ -26,14 +25,14 @@ public class Button {
     private boolean withText = true;
     private boolean withPicture = true;
 
-    Button(float width, float height, float x, float y, Texture img){
+    Button1(float width, float height, float x, float y, Texture img){
         this.width = width;
         this.height = height;
         this.x = x;
         this.y = y;
         this.img = img;
     }
-    public Button(int x, int y, String text, int fontSize, int fontColor) {
+    public Button1(int x, int y, String text, int fontSize, int fontColor) {
         this.x = x;
         this.y = y;
         this.text = text;
@@ -50,7 +49,7 @@ public class Button {
         this.width = this.textX;
         this.height = this.textY;
     }
-    public Button(int x, int y, int sizeX, int sizeY, int fontSize, int fontColor, Texture picture, String text) {
+    public Button1(int x, int y, int sizeX, int sizeY, int fontSize, int fontColor, Texture picture, String text) {
         this.x = x;
         this.y = y;
         this.width = sizeX;
