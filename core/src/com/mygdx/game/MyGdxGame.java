@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class MyGdxGame extends Game {
 	// ширина и высота экрана
@@ -17,11 +18,14 @@ public class MyGdxGame extends Game {
 	public static float SCR_HEIGHT;
 	BitmapFont font;
 
+	long startTime = TimeUtils.millis();
+
 	// системные объекты
 	SpriteBatch batch; // Объект, отвечающий за вывод изображений
 	OrthographicCamera camera; // пересчитывает размеры для различных экранов
-	int TotalMoney = 1000000000;
+	int TotalMoney = 1000000000, people = 100;
 	Vector3 touch;
+
 
 //	BitmapFont font; // шрифт
 	ScreenGame screenGame;
@@ -41,6 +45,7 @@ public class MyGdxGame extends Game {
 		screenMarket = new ScreenMarket(this);
 
 		screenGame = new ScreenGame(this);
+
 
 
 //		setScreen(screenIntro);

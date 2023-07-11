@@ -16,6 +16,7 @@ public class Button1 {
     private int textY;
 
     private BitmapFont font = new BitmapFont();
+
     public static FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("appetite.ttf"));
     public static FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
@@ -55,31 +56,16 @@ public class Button1 {
         this.width = sizeX;
         this.height = sizeY;
         this.img = picture;
-        this.text = text;
-        parameter.characters = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
-        parameter.borderWidth = 3;
-        parameter.borderColor = Color.BLACK;
-        parameter.size = fontSize;
-        parameter.color = new Color(fontColor);
-        this.font = generator.generateFont(parameter);
-        GlyphLayout gl = new GlyphLayout(this.font, text);
-        this.textX = (int) gl.width;
-        this.textY = (int) gl.height;
-        System.out.println(x);
-        System.out.println(y);
-        System.out.println(sizeX);
-        System.out.println(sizeY);
-        System.out.println(textX);
-        System.out.println(textY);
+
     }
     public void draw(MyGdxGame game) {
-//        if (withPicture) {
-//            game.batch.draw(picture, x, y, width, height);
-//        }
-        if (withPicture && withText) {
-            this.font.draw(game.batch, this.text, this.x + (width - textX) / 2,
-                    this.y + (height + textY) / 2);
+        if (withPicture) {
+            game.batch.draw(img, x, y, width, height);
         }
+//        if (withPicture && withText) {
+//            this.font.draw(game.batch, this.text, this.x + (width - textX) / 2,
+//                    this.y + (height + textY) / 2);
+//        }
 //        if (!withPicture && withText) {
 //            this.font.draw(game.batch, this.text, this.x, this.y + textY);
 //        }
