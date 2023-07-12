@@ -16,7 +16,7 @@ public class ViewCafe {
     }
     int GetCusomers(){return (int) people / quantityOfCafe;}
     int GetProfit(){
-        return (int) (quantityOfCafe * ((GetCusomers() * averageCheck) * advert - (int) emploee * 0.8));
+        return (int) (quantityOfCafe * ((GetCusomers() * averageCheck) * advert - (int) emploee * 0.8)) * (int) (time / 60000);
     }
     String INF = "Общая выручка: " + Integer.toString(GetProfit()) + "\n" +
             "Всего посетило клиентов: \n" +
