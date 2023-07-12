@@ -20,7 +20,7 @@ public class ScreenMarket implements Screen {
         button1BackToGame = new Button1(100, 100, 0, SCR_HEIGHT - 100, new Texture("buttonBack.png"));
 
         button1InfCafe = new Button1(SCR_WIDTH * 5 / 10, SCR_HEIGHT * 5 / 10, SCR_WIDTH  / 10, SCR_HEIGHT  / 10, new Texture("CafeINF.png"));
-        button1InfHotel = new Button1(SCR_WIDTH * 5 / 10, SCR_HEIGHT * 5 / 10, SCR_WIDTH  / 10, SCR_HEIGHT  / 10, new Texture("HostelINf.png"));
+        button1InfHotel = new Button1(SCR_WIDTH * 5 / 10, SCR_HEIGHT * 5 / 10, SCR_WIDTH  / 10, SCR_HEIGHT  / 10, new Texture("HostelINF.png"));
         button1InfBuilding = new Button1(SCR_WIDTH * 5 / 10, SCR_HEIGHT * 5 / 10, SCR_WIDTH  / 10, SCR_HEIGHT  / 10, new Texture("BuildingINF.png"));
         button1BackToMarket = new Button1(50, 50,SCR_WIDTH / 10 , SCR_HEIGHT * 6 / 10 - 50, new Texture("buttonClose.png"));
         newHouses = new NewHouse[3];

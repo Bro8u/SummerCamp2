@@ -15,8 +15,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class MyGdxGame extends Game {
 	// ширина и высота экрана
-	public static float SCR_WIDTH;
-	public static float SCR_HEIGHT;
+	public static int SCR_WIDTH;
+	public static int SCR_HEIGHT;
 	BitmapFont font;
 
 	long startTime = TimeUtils.millis();
