@@ -226,7 +226,7 @@ public class ScreenGame implements Screen {
 //                mgg.batch.draw(buttonCloseInf.img, buttonCloseInf.x, buttonCloseInf.y, buttonCloseInf.width, buttonCloseInf.height);
 //            }
 //        }
-        mgg.batch.draw(home, x, y, 300,  300);
+        mgg.batch.draw(home, x, y);
         mgg.batch.end();
     }
 
