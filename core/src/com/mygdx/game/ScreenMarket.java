@@ -71,7 +71,7 @@ public class ScreenMarket implements Screen {
             mgg.camera.unproject(mgg.touch);
             for(int i = 0; i < newHouses.length; i++){
                 if (newHouses[i].button1BuyHouse.pushed(x, y) && newHouses[i].cost <= mgg.TotalMoney ){
-                    mgg.updateScreenGame(i);
+                    mgg.updateScreenGame(i,1);
                     mgg.setScreen(mgg.screenGame);
                     mgg.TotalMoney -= newHouses[i].cost;
                 }

@@ -47,14 +47,13 @@ public class MyGdxGame extends Game {
 
 		screenGame = new ScreenGame(this);
 
-
-
 //		setScreen(screenIntro);
 		setScreen(screenGame);
 	}
 
-	void updateScreenGame(int numHouse) {
+	void updateScreenGame(int numHouse,int flag) {
 		screenGame.numHouse = numHouse;
+		screenGame.flag = flag;
 	}
 
 

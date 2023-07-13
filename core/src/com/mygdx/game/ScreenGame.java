@@ -13,17 +13,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class ScreenGame implements Screen {
     MyGdxGame mgg;
     Texture imgBackGround;
-    Button1 button1Market, buttonCloseInf;
+    Button1 button1Market, buttonCloseInf,confirmHomeBuild;
     ViewCafe viewCafe, help;
-    ArrayList<Cell> HavingHouses;
+    ArrayList<Cell> havingHouses;
+    int length;
     Map<Integer, Integer> howManyOfEachType;
     Matrix4 transformMatrix;
     int flagInf = -1;
@@ -41,9 +40,14 @@ public class ScreenGame implements Screen {
     ArrayList<Home> list;
 
     int numHouse = -1;
+    int flag = 0;
+    int hx,hy;
+    int sqWidth,sqHeight;
+    int flagConfirm;
     public ScreenGame(MyGdxGame g) {
         mgg = g;
-        HavingHouses = new ArrayList<Cell>();
+        havingHouses = new ArrayList<>();
+        length = 0;
         howManyOfEachType = new HashMap<>();
         Matrix4 transformMatrix = new Matrix4();
         transformMatrix.translate((int) SCR_WIDTH / 10, (int) SCR_HEIGHT * 5 / 10, 0); // переместить текст в позицию (x, y)
@@ -54,6 +58,7 @@ public class ScreenGame implements Screen {
         buttonCloseInf = new Button1(100, 100, SCR_WIDTH * 5 / 10 - 100, SCR_HEIGHT * 6 / 10 - 100, new Texture("buttonClose.png"));
         button1Market = new Button1(100, 100, SCR_WIDTH - 100,
                 SCR_HEIGHT - 100, new Texture("buttonMarket.png"));
+        confirmHomeBuild = new Button1(100,100,SCR_WIDTH-100,SCR_HEIGHT-100,new Texture("confirm.png"));
 
         blue = new Texture("blue.png");
         background = new Texture("background.png");
@@ -66,11 +71,7 @@ public class ScreenGame implements Screen {
 
         touchHome = false;
         touchSquare = false;
-
         completedHome = false;
-
-        x = 0;
-        y = 0;
 
         mas = new Square[18][32];
         isEmpty = new boolean[18][32];
@@ -78,9 +79,12 @@ public class ScreenGame implements Screen {
 
         prefs = Gdx.app.getPreferences("My Preferences");
 
+        sqWidth = SCR_WIDTH/32;
+        sqHeight = SCR_HEIGHT/18;
+
         for (int i = 0; i<18;i++){
             for(int j = 0;j<32;j++){
-                mas[i][j] = new Square(i,j,(MyGdxGame.SCR_WIDTH-1920)/2+j*60,(17-i)*60);
+                mas[i][j] = new Square(i,j,j*(SCR_WIDTH/32),(17-i)*(SCR_HEIGHT/18));
                 isEmpty[i][j] = false;
                 if (i==7||i==8||i>=13){
                     mas[i][j].isEmpty = true;
@@ -89,9 +93,10 @@ public class ScreenGame implements Screen {
                 if (j==10||j==11||j==22||j==23){
                     mas[i][j].isEmpty = true;
                     isEmpty[i][j] = true;
+                    prefs.putString(i+" "+j,mas[i][j].toString());
+                    prefs.flush();
                 }
-                prefs.putString(i+" "+j,mas[i][j].toString());
-                prefs.flush();
+
             }
         }
     }
@@ -103,130 +108,148 @@ public class ScreenGame implements Screen {
     public void render(float delta) {
 
         mgg.batch.begin();
-        mgg.batch.draw(blue,0,0, SCR_WIDTH, SCR_HEIGHT);
-        mgg.batch.draw(background,( SCR_WIDTH-1920)/2 , ( SCR_HEIGHT-1080)/2, 1920, 1080);
+        mgg.batch.draw(background2,0 , 0, SCR_WIDTH, SCR_HEIGHT);
 
-        mgg.batch.draw(button1Market.img,
-                button1Market.x,
-                button1Market.y,
-                button1Market.width,
-                button1Market.height);
-        for(int i = 0; i < HavingHouses.size(); i++) {
-            mgg.batch.draw(new Texture("build" + HavingHouses.get(i).type + ".png"), HavingHouses.get(i).x, HavingHouses.get(i).y, 120, 120);
-        }
-        if (numHouse != -1) {
-            mgg.batch.draw(new Texture("build" + numHouse + ".png"), 150, 150, 300,  300);
-            HavingHouses.add(new Cell(0, 0, 120,  120, numHouse));
-//            if (howManyOfEachType.containsKey(numHouse)){
-//                howManyOfEachType.put(numHouse, howManyOfEachType.get(numHouse) + 1 );
-//            }
-//            else{
-//                howManyOfEachType.put(numHouse, 1 );
-//            }
+        if (flag==0){
+            mgg.batch.draw(button1Market.img,
+                    button1Market.x,
+                    button1Market.y,
+                    button1Market.width,
+                    button1Market.height);
 
-            numHouse = -1;
-        }
-
-
-        if (Gdx.input.justTouched()) {
-            float x = Gdx.input.getX(), y = Gdx.input.getY();
-            mgg.touch.set(x, y, 0);
-            mgg.camera.unproject(mgg.touch);
-            if (button1Market.pushed(x, y)){
-                mgg.setScreen(mgg.screenMarket);
+            if (Gdx.input.justTouched()) {
+                float x = Gdx.input.getX(), y = Gdx.input.getY();
+                mgg.touch.set(x, y, 0);
+                mgg.camera.unproject(mgg.touch);
+                if (button1Market.pushed(x, y)){
+                    mgg.setScreen(mgg.screenMarket);
+                }
             }
-        }
-//        if (Gdx.input.justTouched()) {
-//            float x = Gdx.input.getX(), y = Gdx.input.getY();
-//            mgg.touch.set(x, y, 0);
-//            mgg.camera.unproject(mgg.touch);
-//            for(int i = 0; i < HavingHouses.size(); i++){
-//                if (HavingHouses.get(i).pressed(x, y)){
-//                    flagInf = HavingHouses.get(i).type;
-////         // see a view with dinamic parameters, which depends on time which a plaier is gamingIDTH /
-//                }
-//            }
-//        }
-//        if (Gdx.input.justTouched()) {
-//            float x = Gdx.input.getX(), y = Gdx.input.getY();
-//            mgg.touch.set(x, y, 0);
-//            mgg.camera.unproject(mgg.touch);
-//            if (buttonCloseInf.pushed(x, y)){
-//                flagInf = -1;
-//            }
-//        }
-        Gdx.input.setInputProcessor(new InputAdapter(){
-            @Override
-            public boolean touchUp(int screenX, int screenY, int pointer, int button1) {
-                if(pressedHome) {
-                    if (screenX > (SCR_WIDTH - 1920) / 2 && screenX < (SCR_WIDTH - 1920) / 2 + 1920) {
-                        x = screenX;
-                        y = SCR_HEIGHT - screenY;
-                        pressedHome = false;
-                        if (!isEmpty[(y - (SCR_HEIGHT - 1080) / 2) / 60][(x - (SCR_WIDTH - 1920) / 2) / 60]) {
-                            x = (x - (SCR_WIDTH - 1920) / 2) / 60;
-                            y = (y - (SCR_HEIGHT - 1080) / 2) / 60;
-                            fillArray(1,y,x);
-                            fillArray(2,y,x);
+            for (int i =0;i<havingHouses.size();i++){
+                havingHouses.get(i).draw(mgg );
+            }
 
-                            if (mas[17-y][x].isEmpty) {
-                                x = 0;
-                                y = 0;
-                            } else {
-                                x = (SCR_WIDTH - 1920) / 2 + x * 60;
-                                y = (SCR_HEIGHT - 1080) / 2 + y * 60;
-                                completedHome = true;
-                            }
-                        }
+
+        }
+        if (flag ==1){
+            confirmHomeBuild.draw(mgg);
+            for (int i = 17; i >=0; i--) {
+                for (int j = 0; j < 32; j++) {
+                     Square sq = new Square(fromString(1,prefs.getString(i+" "+j)),fromString(2,prefs.getString(i+" "+j)));
+                }
+            }
+            if (numHouse != -1) {
+                havingHouses.add(new Cell(0, 0, SCR_WIDTH/32*2,  SCR_HEIGHT/18*2, numHouse));
+                length++;
+                havingHouses.get(length-1).draw(mgg);
+                numHouse = -1;
+            }
+            for (int i = 17; i >=0; i--) {
+                for (int j = 0; j < 32; j++) {
+                    Square sq = mas[i][j];
+                    if (mas[i][j].isEmpty){
+                        mgg.batch.draw(red,sq.x,sq.y,SCR_WIDTH/32,SCR_HEIGHT/18);
                     }
                 }
-                return true;
             }
-            @Override
-            public boolean touchDragged(int screenX, int screenY, int pointer) {
-                if (screenX>x && screenX<x+240 &&screenY> SCR_HEIGHT-y-240 && screenY< SCR_HEIGHT-y){
-                    pressedHome = true;
-                    x=screenX;
-                    y=MyGdxGame.SCR_WIDTH-screenY;
 
+
+            Gdx.input.setInputProcessor(new InputAdapter(){
+                @Override
+                public boolean touchUp(int screenX, int screenY, int pointer, int button1) {
+                    if(pressedHome) {
+                            hx = screenX;
+                            hy = SCR_HEIGHT - screenY;
+                            pressedHome = false;
+
+                                hx = hx/ (SCR_WIDTH/32);
+                                hy = hy/(SCR_HEIGHT/18);
+
+                                if (mas[17-hy][hx].isEmpty) {
+                                    hx=0;
+                                    hy=0;
+                                } else {
+                                    if(hy+1==18||mas[hy+1][hx].isEmpty){
+                                        x = hx;
+                                        y = hy;
+                                        hx =  hx * sqWidth;
+                                        hy =  (hy-1) * sqHeight;
+                                        flagConfirm = 1;
+                                    } else if (hx+1==32||mas[hy][hx+1].isEmpty){
+                                        x = hx;
+                                        y = hy;
+                                        hx = (hx-1) * sqWidth;
+                                        hy = hy * sqHeight;
+                                        flagConfirm = 2;
+                                    } else if ((hx+1==32&&hy+1==18)||(mas[hy+1][hx+1].isEmpty)){
+                                        x = hx;
+                                        y = hy;
+                                        hx = (hx-1) * sqWidth;
+                                        hy = (hy-1) * sqHeight;
+                                        flagConfirm = 3;
+                                    } else {
+                                        x = hx;
+                                        y = hy;
+                                        hx =  hx * sqWidth;
+                                        hy =  hy * sqHeight;
+                                        flagConfirm = 0;
+                                    }
+                                    havingHouses.get(length-1).x = hx;
+                                    havingHouses.get(length-1).y = hy;
+                                }
+                    }
+                    if (completedHome) {
+                        if (flagConfirm ==0) {
+                            fillArray(1,y,x);
+                            fillArray(2,y,x);
+                            flag = 0;
+                            havingHouses.get(length-1).x = hx;
+                            havingHouses.get(length-1).y = hy;
+                        } else if (flagConfirm == 1){
+                            fillArray(1,y-1,x);
+                            fillArray(2,y-1,x);
+                            flag = 0;
+                            havingHouses.get(length-1).x = hx;
+                            havingHouses.get(length-1).y = hy;
+                        } else if (flagConfirm == 2){
+                            fillArray(1,y,x-1);
+                            fillArray(2,y,x-1);
+                            flag = 0;
+                            havingHouses.get(length-1).x = hx;
+                            havingHouses.get(length-1).y = hy;
+                        } else if (flagConfirm ==3){
+                            fillArray(1,y-1,x-1);
+                            fillArray(2,y-1,x-1);
+                            flag = 0;
+                            havingHouses.get(length-1).x = hx;
+                            havingHouses.get(length-1).y = hy;
+                        }
+                        completedHome = false;
+                    }
+                    return true;
                 }
-                return true;
-            }
+                @Override
+                public boolean touchDragged(int screenX, int screenY, int pointer) {
+                    hx = havingHouses.get(length-1).x;
+                    hy = havingHouses.get(length-1).y;
+                    if (screenX>hx && screenX<hx+sqWidth*2 && screenY> SCR_HEIGHT-hy-sqHeight*2 && screenY< SCR_HEIGHT-hy){
+                        pressedHome = true;
+                        return true;
+                    }
+                    return true;
+                }
 
-            @Override
-            public boolean touchDown(int screenX, int screenY, int pointer, int button1) {
-                return true;
-            }
-        });
+                @Override
+                public boolean touchDown(int screenX, int screenY, int pointer, int button1) {
+                    if (confirmHomeBuild.pushed(screenX,screenY)){
+                        completedHome = true;
+                    }
+                    return true;
+                }
+            });
 
-//        if (flagInf != -1 && pressedHome == false){
-//            if (howManyOfEachType.containsKey(numHouse)){
-//                howManyOfEachType.put(numHouse, howManyOfEachType.get(numHouse) + 1 );
-//            }
-//            else{
-//                howManyOfEachType.put(numHouse, 1 );
-//            }
-//            ViewCafe help = new ViewCafe((float) (TimeUtils.millis() - mgg.startTime),
-//                    (int) howManyOfEachType.get(flagInf), mgg.people,
-//                    (int) HavingHouses.get(flagInf).advert,
-//                    (int) HavingHouses.get(flagInf).emploee,
-//                    (int) HavingHouses.get(flagInf).averageCheck);
-//            if (transformMatrix == null){
-//                mgg.batch.draw(help.img, SCR_WIDTH / 10,SCR_HEIGHT / 10 , SCR_WIDTH * 7 / 10, SCR_HEIGHT * 5 / 10);
-//                mgg.font.draw(mgg.batch, help.INF, SCR_WIDTH / 10, SCR_HEIGHT * 5 / 10);
-//                mgg.batch.draw(buttonCloseInf.img, buttonCloseInf.x, buttonCloseInf.y, buttonCloseInf.width, buttonCloseInf.height);
-//            }
-//            else {
-//
-//
-//                mgg.batch.draw(help.img, SCR_WIDTH / 10, SCR_HEIGHT / 10, SCR_WIDTH * 7 / 10, SCR_HEIGHT * 5 / 10);
-//                mgg.batch.setProjectionMatrix(mgg.camera.combined);
-//                mgg.batch.setTransformMatrix(transformMatrix);
-//                mgg.font.draw(mgg.batch, help.INF, SCR_WIDTH / 10, SCR_HEIGHT * 5 / 10);
-//                mgg.batch.draw(buttonCloseInf.img, buttonCloseInf.x, buttonCloseInf.y, buttonCloseInf.width, buttonCloseInf.height);
-//            }
-//        }
-        mgg.batch.draw(home, x, y);
+                havingHouses.get(length-1).draw(mgg);
+        }
         mgg.batch.end();
     }
 
@@ -256,24 +279,27 @@ public class ScreenGame implements Screen {
         button1Market.img.dispose();
     }
     public void fillArray(int flag, int i, int j){
+        int fy=17- i,fx = j;
         if (flag==1){
-            mas[i][j].isEmpty = true;
-            mas[i-1][j].isEmpty = true;
-            mas[i][j+1].isEmpty = true;
-            mas[i-1][j+1].isEmpty = true;
+            mas[fy][fx].isEmpty = true;
+            mas[fy-1][fx].isEmpty = true;
+            mas[fy][fx+1].isEmpty = true;
+            mas[fy-1][fx+1].isEmpty = true;
 
-            prefs.putString(i+" "+j,mas[i][j].toString());
-            prefs.putString((i-1)+" "+j,mas[i-1][j].toString());
-            prefs.putString(i+" "+(j+1),mas[i][j+1].toString());
-            prefs.putString((i-1)+" "+(j+1),mas[i-1][j+1].toString());
+            prefs.putString(fy+" "+fx,mas[fy][fx].toString());
+            prefs.putString((fy-1)+" "+fx,mas[fy-1][fx].toString());
+            prefs.putString(fy+" "+(fx+1),mas[fy][fx+1].toString());
+            prefs.putString((fy-1)+" "+(fx+1),mas[fy-1][fx+1].toString());
+
+            prefs.putBoolean("f"+fy+" "+fx,true);
             prefs.flush();
 
         }
         if (flag == 2){
-            isEmpty[i][j] = true;
-            isEmpty[i-1][j] = true;
-            isEmpty[i][j+1] = true;
-            isEmpty[i-1][j+1] = true;
+            isEmpty[fy][fx] = true;
+            isEmpty[fy-1][fx] = true;
+            isEmpty[fy][fx+1] = true;
+            isEmpty[fy-1][fx+1] = true;
         }
     }
 
@@ -303,6 +329,13 @@ public class ScreenGame implements Screen {
         return -1;
     }
     public void drawHome(int i){
-        mgg.batch.draw(list.get(i).texture,list.get(i).square.x,list.get(i).square.y);
+        mgg.batch.draw(list.get(i).texture,list.get(i).square.x,list.get(i).square.y,sqWidth*2,sqHeight*2);
+    }
+    public Texture retHome(int i){
+        return new Texture("build" + havingHouses.get(i).type + ".png");
+    }
+    public boolean isEmptyFromString(String str){
+
+        return Boolean.valueOf(str);
     }
 }
