@@ -20,7 +20,8 @@ public class ScreenGame implements Screen {
     ViewCafe viewCafe, help;
     ArrayList<Cell> HavingHouses;
     Map<Integer, Integer> howManyOfEachType;
-    Matrix4 transformMatrix;
+
+//    Matrix4 transformMatrix;
     int flagInf = -1;
 
 
@@ -29,10 +30,10 @@ public class ScreenGame implements Screen {
         mgg = g;
         HavingHouses = new ArrayList<Cell>();
         howManyOfEachType = new HashMap<>();
-        Matrix4 transformMatrix = new Matrix4();
-        transformMatrix.translate((int) SCR_WIDTH / 10, (int) SCR_HEIGHT * 5 / 10, 0); // переместить текст в позицию (x, y)
-        transformMatrix.scale((int) SCR_WIDTH / 10, (int) SCR_HEIGHT / 10, 1); // масштабирование текста по осям X и Y
-        transformMatrix.rotate(0, 0, 1, 0); // поворот текста на заданный угол
+//        Matrix4 transformMatrix = new Matrix4();
+//        transformMatrix.translate((int) SCR_WIDTH / 10, (int) SCR_HEIGHT * 5 / 10, 0); // переместить текст в позицию (x, y)
+//        transformMatrix.scale((int) SCR_WIDTH / 10, (int) SCR_HEIGHT / 10, 1); // масштабирование текста по осям X и Y
+//        transformMatrix.rotate(0, 0, 1, 0); // поворот текста на заданный угол
 
         imgBackGround = new Texture("backgroundMain.jpg");
         buttonCloseInf = new Button1(100, 100, SCR_WIDTH * 5 / 10 - 100, SCR_HEIGHT * 6 / 10 - 100, new Texture("buttonClose.png"));
@@ -99,20 +100,19 @@ public class ScreenGame implements Screen {
                     (int) HavingHouses.get(flagInf).advert,
                     (int) HavingHouses.get(flagInf).emploee,
                     (int) HavingHouses.get(flagInf).averageCheck);
-            if (transformMatrix == null){
-                mgg.batch.draw(help.img, SCR_WIDTH / 10,SCR_HEIGHT / 10 , SCR_WIDTH * 7 / 10, SCR_HEIGHT * 5 / 10);
-                mgg.font.draw(mgg.batch, help.INF, SCR_WIDTH / 10, SCR_HEIGHT * 5 / 10);
-                mgg.batch.draw(buttonCloseInf.img, buttonCloseInf.x, buttonCloseInf.y, buttonCloseInf.width, buttonCloseInf.height);
-            }
-            else {
+//            if (transformMatrix == null){
+//                mgg.batch.draw(help.img, SCR_WIDTH / 10,SCR_HEIGHT / 10 , SCR_WIDTH * 7 / 10, SCR_HEIGHT * 5 / 10);
+//                mgg.font.draw(mgg.batch, help.INF, SCR_WIDTH / 10, SCR_HEIGHT * 5 / 10);
+//                mgg.batch.draw(buttonCloseInf.img, buttonCloseInf.x, buttonCloseInf.y, buttonCloseInf.width, buttonCloseInf.height);
+//            }
 
 
-                mgg.batch.draw(help.img, SCR_WIDTH / 10, SCR_HEIGHT / 10, SCR_WIDTH * 7 / 10, SCR_HEIGHT * 5 / 10);
-                mgg.batch.setProjectionMatrix(mgg.camera.combined);
-                mgg.batch.setTransformMatrix(transformMatrix);
-                mgg.font.draw(mgg.batch, help.INF, SCR_WIDTH / 10, SCR_HEIGHT * 5 / 10);
-                mgg.batch.draw(buttonCloseInf.img, buttonCloseInf.x, buttonCloseInf.y, buttonCloseInf.width, buttonCloseInf.height);
-            }
+//                mgg.batch.setProjectionMatrix(mgg.camera.combined);
+//                mgg.batch.setTransformMatrix(transformMatrix);
+            mgg.batch.draw(help.img, SCR_WIDTH / 10, SCR_HEIGHT / 10, SCR_WIDTH * 7 / 10, SCR_HEIGHT * 5 / 10);
+            mgg.font.draw(mgg.batch, help.INF, SCR_WIDTH / 10, SCR_HEIGHT * 5 / 10);
+            mgg.batch.draw(buttonCloseInf.img, buttonCloseInf.x, buttonCloseInf.y, buttonCloseInf.width, buttonCloseInf.height);
+
         }
 
         if (Gdx.input.justTouched()) {
